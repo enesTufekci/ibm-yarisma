@@ -1,0 +1,44 @@
+.answer-pill {
+  background-color: #7695cd;
+  border-radius: 1rem;
+  font-weight: 600;
+  font-size: 2.75rem;
+  height: 6rem;
+}
+.answer-index {
+  width: 100%;
+  height: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.answer-index-inner {
+  border: 0.25rem solid white;
+  width: 4rem;
+  height: 4rem;
+  line-height: 4rem;
+  border-radius: 50%;
+  text-align: center;
+  background-color: #021b79;
+  margin: 0 auto;
+}
+
+.answer-pill-items {
+  display: flex;
+  align-items: center;
+}
+
+.answer-text {
+  padding: 0 1rem;
+  line-height: 6rem;
+  flex-grow: 1;
+}
+.answer-points {
+  width: 6rem;
+  background-color: #021b79;
+  height: 6rem;
+  line-height: 6rem;
+  text-align: center;
+  border-radius: 0 1rem 1rem 0;
+}

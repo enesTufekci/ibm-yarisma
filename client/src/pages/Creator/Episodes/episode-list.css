@@ -1,0 +1,23 @@
+.episode-list {
+  height: 80vh;
+  overflow: scroll;
+}
+
+.episode-list a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.episode-list-item {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  margin: 8px;
+  cursor: pointer;
+}
+
+.episode-list-title {
+  flex-grow: 2;
+  padding: 8px;
+}

@@ -1,0 +1,21 @@
+.questions-container {
+  min-height: 100vh;
+}
+
+.question-answers {
+  display: flex;
+  flex-direction: column;
+}
+
+.question-answer {
+  display: flex;
+  background-color: #0575e6;
+  padding: 0.5rem;
+  margin: 0.5rem;
+}
+.question-answer .question-answer-text {
+  width: 60%;
+}
+.question-answer .question-answer-actions {
+  width: 40%;
+}

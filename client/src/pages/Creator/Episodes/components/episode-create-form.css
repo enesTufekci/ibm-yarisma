@@ -1,0 +1,6 @@
+.episode-create-form {
+  display: flex;
+}
+.episode-create-form input {
+  flex-grow: 2;
+}

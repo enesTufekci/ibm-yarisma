@@ -1,0 +1,14 @@
+input {
+  display: block;
+  background-color: #7695cd;
+  color: #fff;
+  border: none;
+  outline: none;
+  font-size: 1.5rem;
+  text-indent: 8px;
+  height: 3rem;
+}
+
+input::placeholder {
+  color: #fff;
+}

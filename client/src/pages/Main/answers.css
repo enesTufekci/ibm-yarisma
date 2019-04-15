@@ -1,0 +1,11 @@
+.answers-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.answer-container {
+  display: inline-block;
+  width: calc(50% - 2rem);
+  padding: 1rem;
+}

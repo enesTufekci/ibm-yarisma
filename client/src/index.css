@@ -1,0 +1,29 @@
+/* 
+  COLORS:
+
+  light: #7695cd
+  dark: #011f85
+*/
+
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web');
+
+html {
+  font-size: 1vw;
+}
+body {
+  margin: 0;
+  padding: 0;
+  color: #fff;
+  font-weight: 500;
+  font-family: 'Titillium Web', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: linear-gradient(
+    to right top,
+    #0575e6,
+    #0b5eca,
+    #0b47af,
+    #083194,
+    #021b79
+  );
+}

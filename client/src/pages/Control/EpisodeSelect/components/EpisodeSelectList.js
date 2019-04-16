@@ -5,7 +5,7 @@ import Container from 'components/Container'
 import Button from 'components/Button'
 import Input from 'components/Input'
 
-function EpisodeSelectList() {
+function EpisodeSelectList({ history }) {
   const [data, loading, error] = useGet('episode')
   const createCompetition = useRest('competition')
   const [creating, setCreating] = React.useState(-1)
@@ -27,7 +27,10 @@ function EpisodeSelectList() {
       teams: [{ title: teamA, points: 0 }, { title: teamB, points: 0 }]
     }
     const res = await createCompetition(data)
-    console.log(await res.json())
+    const { competition } = await res.json()
+    if (competition) {
+      history.push(`control/${competition._id}`)
+    }
   }
 
   return (

@@ -2,33 +2,32 @@ import React from 'react'
 
 import SocketContext from 'network/Socket'
 import { useGet } from 'network/useNetwork'
-import Competition from './Competition'
 
 import './main.css'
+import CurrentQuestion from './CurrentQuestion'
 
 function Main() {
   const [data, loading, error] = useGet('competition')
   const { socket } = React.useContext(SocketContext)
-  const [competition, setCompetition] = React.useState(null)
+  const [competitionId, setCompetitionId] = React.useState(null)
 
   React.useEffect(() => {
     if (data && data.competition && !error) {
-      setCompetition(data.competition)
+      setCompetitionId(data.competition._id)
     }
-  }, [data, loading])
+  }, [data, loading, competitionId])
 
   socket.on(
     'competition-start',
     ({ competitionId, episodeId, currentQuestionIndex }) => {
       console.log(competitionId, episodeId, currentQuestionIndex)
-      setCompetition({ competitionId, episodeId })
+      setCompetitionId(competitionId)
     }
   )
-
-  if (competition) {
-    return <Competition competitionId={competition._id} />
+  if (competitionId) {
+    return <CurrentQuestion competitionId={competitionId} />
   }
-  return <div>Main</div>
+  return <div />
 }
 
 export default Main

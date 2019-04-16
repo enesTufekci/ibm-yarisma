@@ -4,7 +4,8 @@ import io from 'socket.io-client'
 const SocketContext = React.createContext()
 
 export const SocketProvider = ({ children }) => {
-  const socket = io(':5555')
+  console.log(process.env.REACT_APP_WS)
+  const socket = io(process.env.REACT_APP_WS)
   return (
     <SocketContext.Provider value={{ socket }}>
       {children}

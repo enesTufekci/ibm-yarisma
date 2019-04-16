@@ -26,15 +26,14 @@ function CurrentQuestion({ competitionId }) {
       }
 
       if (data.currentQuestionIndex !== null) {
-        console.log(data.currentQuestionIndex)
-        setCurrentQuestionIndex(data.currentQuestionIndex)
+        setCurrentQuestionIndex(data.currentQuestionIndex || 0)
       }
       if (episode) {
         const { questions } = episode
         setQuestions(JSON.parse(questions))
       }
     }
-  }, [data, loading])
+  }, [data, loading, competitionId])
 
   socket.on('question-index-updated', index => {
     setCurrentQuestionIndex(index)

@@ -6,7 +6,7 @@ import EpisodeSelectList from './components/EpisodeSelectList'
 import './control.css'
 import { useGet } from 'network/useNetwork'
 
-function EpisodeSelect() {
+function EpisodeSelect({ history }) {
   const [data, loading, error] = useGet('competition')
   const [competition, setCompetition] = React.useState(
     (data && data.competition) || null
@@ -16,12 +16,12 @@ function EpisodeSelect() {
     if (data && data.competition && !error) {
       setCompetition(data.competition)
     }
-  }, [data, loading])
+  }, [data, loading, competition])
 
   if (competition) {
     return <Redirect to={`/control/${competition._id}`} />
   }
-  return <EpisodeSelectList />
+  return <EpisodeSelectList history={history} />
 }
 
 export default EpisodeSelect

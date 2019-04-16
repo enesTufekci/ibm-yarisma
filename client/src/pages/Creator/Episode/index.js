@@ -39,31 +39,39 @@ function Episode({ match }) {
       questions
     })
 
-    const data = await res.json()
-    console.log(data)
+    if (res.ok) {
+      alert('Sorular güncellendi')
+    }
   }
   return (
     <Container>
-      {loading && <div>Loading...</div>}
-      {data && (
-        <div className="episode-container">
-          <div className="episode-title">{data.episode.title}</div>
-          <div className="episode-questions">
-            <h1>Sorular</h1>
-            {questions &&
-              questions.map((question, index) => (
-                <Question
-                  onUpdate={handleUpdateQuestions(index)}
-                  onDelete={handleDeleteQuestion(index)}
-                  key={`q-${index}`}
-                  question={question}
-                />
-              ))}
-            <Question onCreate={handleAddQuestion} question={null} />
-          </div>
+      <div style={{ padding: '2rem 0' }}>
+        {loading && <div>Loading...</div>}
+        <div style={{ border: '1px solid white', textAlign: 'center' }}>
+          <Button onClick={handlePostQuestions}>GÜNCELLE</Button>
         </div>
-      )}
-      <Button onClick={handlePostQuestions}>Onayla</Button>
+        {data && (
+          <div className="episode-container">
+            <div className="episode-title">{data.episode.title}</div>
+            <div className="episode-questions">
+              <h1>Sorular</h1>
+              {questions &&
+                questions.map((question, index) => (
+                  <Question
+                    onUpdate={handleUpdateQuestions(index)}
+                    onDelete={handleDeleteQuestion(index)}
+                    key={`q-${index}`}
+                    question={question}
+                  />
+                ))}
+              <Question onCreate={handleAddQuestion} question={null} />
+            </div>
+          </div>
+        )}
+        <div style={{ border: '1px solid white', textAlign: 'center' }}>
+          <Button onClick={handlePostQuestions}>GÜNCELLE</Button>
+        </div>
+      </div>
     </Container>
   )
 }

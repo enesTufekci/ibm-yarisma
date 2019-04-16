@@ -84,9 +84,10 @@ function competitionRoutes({ cache, socket }) {
     }
   })
 
-  router.delete('/:id', async () => {
+  router.delete('/:id', async (req, res) => {
+    const { id } = req.params
     try {
-      const result = await Competition.findByIdAndUpdate({
+      const result = await Competition.findByIdAndUpdate(id, {
         isActive: false
       })
 
@@ -94,7 +95,11 @@ function competitionRoutes({ cache, socket }) {
         cache.set('competitionId', null)
         cache.set('activeEpisodeId', null)
         cache.set('currentQuestionIndex', 0)
+        socket.emit('competition-cancelled')
         return res.json({ ok: true })
+      } else {
+        res.sendStatus(404)
+        return res.json({ ok: false })
       }
     } catch (error) {
       return res.json({ ok: false, error: JSON.stringify(error) })

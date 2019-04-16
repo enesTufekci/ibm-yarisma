@@ -24,6 +24,11 @@ function Main() {
       setCompetitionId(competitionId)
     }
   )
+
+  socket.on('competition-cancelled', () => {
+    setCompetitionId(null)
+  })
+
   if (competitionId) {
     return <CurrentQuestion competitionId={competitionId} />
   }

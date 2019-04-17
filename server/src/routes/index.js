@@ -11,6 +11,7 @@ function routes(context) {
   router.get('/cache', async (_, res) => {
     res.json(context.cache.all())
   })
+
   router.post('/question-index', (req, res) => {
     const { currentQuestionIndex } = req.body
     const x = context.cache.set('currentQuestionIndex', currentQuestionIndex)

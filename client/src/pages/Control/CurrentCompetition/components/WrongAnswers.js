@@ -8,11 +8,14 @@ function WrongAnswers({ wrongAnswers, handleUpdateWrongAnswers }) {
   return (
     <div className="wrong-answers">
       {wrongAnswers.map((w, i) => (
-        <div className="wrong-answer">
+        <div key={i} className="wrong-answer">
           <h1>{w.team}</h1>
           <div className="wrong-answer-x">
             {[1, 2, 3].map((_, index) => (
-              <Button onClick={handleUpdateWrongAnswers(i, index + 1)}>
+              <Button
+                key={`x-${_}`}
+                onClick={handleUpdateWrongAnswers(i, index + 1)}
+              >
                 <span className={index < w.count ? 'active' : ''}>X</span>
               </Button>
             ))}

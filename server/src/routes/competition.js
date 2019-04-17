@@ -5,10 +5,43 @@ import Episode from '../modals/Episode'
 function competitionRoutes({ cache, socket }) {
   const router = Router()
 
+  router.post('/toggle-points', async (req, res) => {
+    const id = cache.get('competitionId')
+    const show = req.body
+    try {
+      const competition = await Competition.findById(id)
+      if (competition) {
+        const teams = JSON.parse(competition.teams)
+        socket.emit('toggle-points', {
+          teams,
+          show
+        })
+        return res.json({ ok: true })
+      }
+      return res.json({ ok: false })
+    } catch (error) {
+      return res.json({ ok: false, error })
+    }
+  })
+  router.post('/update-points', async (req, res) => {
+    const id = cache.get('competitionId')
+    const { teams } = req.body
+    try {
+      const competition = await Competition.findByIdAndUpdate(id, {
+        teams: JSON.stringify(teams)
+      })
+      if (competition) {
+        return res.json({ ok: true, competition })
+      }
+      return res.json({ ok: false })
+    } catch (error) {
+      return res.json({ ok: false, error })
+    }
+  })
+
   router.post('/wrong-answers', async (req, res) => {
     const { wrongAnswers } = req.body
     const _id = cache.get('competitionId')
-    console.log(_id, wrongAnswers)
     try {
       const competition = await Competition.findByIdAndUpdate(_id, {
         wrongAnswers: JSON.stringify(wrongAnswers)

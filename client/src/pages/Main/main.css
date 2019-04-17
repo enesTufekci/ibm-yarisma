@@ -56,3 +56,27 @@
   margin: 0;
   padding: 0;
 }
+
+.points-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.points-container .team-container {
+  border: 0.25rem solid white;
+  padding: 1rem;
+  margin: 1rem;
+  text-align: center;
+  width: 30vw;
+}
+.points-container .team-container .team-title {
+  font-size: 5rem;
+}
+.points-container .team-container .team-points {
+  font-size: 7rem;
+}
+.points-container .team-container p {
+  font-size: 3rem;
+}

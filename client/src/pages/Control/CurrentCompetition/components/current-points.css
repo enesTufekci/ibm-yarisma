@@ -1,0 +1,13 @@
+.current-points-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.current-points-team {
+  padding: 1rem;
+}
+
+.current-points-actions {
+  display: flex;
+  justify-content: space-between;
+}

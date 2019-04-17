@@ -2,8 +2,8 @@ import React from 'react'
 
 import './layout.css'
 
-function Layout({ children }) {
-  return <div className="layout">{children}</div>
+function Layout({ children, main }) {
+  return <div className={`layout ${main ? 'main' : ''}`}>{children}</div>
 }
 
 export default Layout

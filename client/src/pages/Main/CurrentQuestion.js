@@ -7,6 +7,7 @@ import Container from 'components/Container'
 import Answers from './Answers'
 import WrongAnswersMain from './WrongAnswersMain'
 import Total from './Total'
+import Points from './Points'
 
 function CurrentQuestion({ competitionId }) {
   const { socket } = React.useContext(SocketContext)
@@ -16,6 +17,7 @@ function CurrentQuestion({ competitionId }) {
   const [wrongAnswers, setWrongAnswers] = React.useState([])
   const [correctAnswers, setCorrectAnswers] = React.useState([])
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(null)
+  const [teams, setTeams] = React.useState(null)
 
   const [data, loading, error] = useGet(`competition/${competitionId}`)
 
@@ -51,17 +53,26 @@ function CurrentQuestion({ competitionId }) {
     setCorrectAnswers(correctAnswers)
   })
 
+  socket.on('toggle-points', data => {
+    const { show } = data.show
+    const { teams } = data
+    setTeams(show ? teams : null)
+  })
+
   if (questions[currentQuestionIndex]) {
     const total = questions[currentQuestionIndex].answers
       .map((answer, index) => {
         return correctAnswers &&
+          correctAnswers[currentQuestionIndex] &&
           !isNil(correctAnswers[currentQuestionIndex][index])
           ? Number(answer.points)
           : 0
       })
       .reduce((acc, next) => acc + next)
 
-    return (
+    return teams ? (
+      <Points teams={teams} />
+    ) : (
       <Container>
         <Total total={total} />
         <div className="question-text">

@@ -1,16 +1,19 @@
 import React from 'react'
 
 import { useGet, useRest } from 'network/useNetwork'
+import Layout from 'components/Layout'
 import Container from 'components/Container'
 import Button from 'components/Button'
 import Questions from './components/Questions'
 import WrongAnswers from './components/WrongAnswers'
+import CurrentPoints from './components/CurrentPoints'
 
 function CurrentCompetition({ match, history }) {
   const [episode, setEpisode] = React.useState(null)
   const [competition, setCompetition] = React.useState(null)
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0)
   const [wrongAnswers, setWrongAnswers] = React.useState([])
+  const [teams, setTeams] = React.useState([])
   const [data, loading, error] = useGet(`competition/${match.params.id}`)
   const endCompetition = useRest(`competition/${match.params.id}`, 'DELETE')
   const updateWrongAnswers = useRest('competition/wrong-answers')
@@ -23,6 +26,7 @@ function CurrentCompetition({ match, history }) {
     if (data && !error) {
       if (data.competition) {
         setCompetition(data.competition)
+        data.competition.teams && setTeams(JSON.parse(data.competition.teams))
       }
       if (data.episode) {
         setEpisode(data.episode)
@@ -31,7 +35,7 @@ function CurrentCompetition({ match, history }) {
       if (data.currentQuestionIndex) {
         setCurrentQuestionIndex(JSON.parse(data.currentQuestionIndex))
       }
-      console.log(data.competition.wrongAnswers)
+
       if (data.competition.wrongAnswers) {
         setWrongAnswers(JSON.parse(data.competition.wrongAnswers))
       }
@@ -62,6 +66,7 @@ function CurrentCompetition({ match, history }) {
       history.push('/control')
     }
   }
+
   return (
     <Container>
       <div style={{ padding: '2rem 0' }}>
@@ -74,10 +79,20 @@ function CurrentCompetition({ match, history }) {
         >
           <Button onClick={handleEndCompetition}>Yarismayi bitir</Button>
         </div>
-        <WrongAnswers
-          handleUpdateWrongAnswers={handleUpdateWrongAnswers}
-          wrongAnswers={wrongAnswers}
-        />
+        <div>
+          <h1 style={{ textAlign: 'center' }}>Puan Durumu</h1>
+          <CurrentPoints
+            teams={teams}
+            currentPoints={teams.map(team => Number(team.points))}
+          />
+        </div>
+        <div style={{ border: '1px solid white' }}>
+          <h1 style={{ textAlign: 'center' }}>Yanlis Cevaplar</h1>
+          <WrongAnswers
+            handleUpdateWrongAnswers={handleUpdateWrongAnswers}
+            wrongAnswers={wrongAnswers}
+          />
+        </div>
         {episode && (
           <Questions
             currentQuestionIndex={currentQuestionIndex}

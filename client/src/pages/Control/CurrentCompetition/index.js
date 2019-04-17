@@ -4,13 +4,16 @@ import { useGet, useRest } from 'network/useNetwork'
 import Container from 'components/Container'
 import Button from 'components/Button'
 import Questions from './components/Questions'
+import WrongAnswers from './components/WrongAnswers'
 
 function CurrentCompetition({ match, history }) {
   const [episode, setEpisode] = React.useState(null)
   const [competition, setCompetition] = React.useState(null)
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0)
+  const [wrongAnswers, setWrongAnswers] = React.useState([])
   const [data, loading, error] = useGet(`competition/${match.params.id}`)
   const endCompetition = useRest(`competition/${match.params.id}`, 'DELETE')
+  const updateWrongAnswers = useRest('competition/wrong-answers')
 
   React.useEffect(() => {
     handleSet()
@@ -26,8 +29,30 @@ function CurrentCompetition({ match, history }) {
       }
 
       if (data.currentQuestionIndex) {
-        setCurrentQuestionIndex(data.currentQuestionIndex)
+        setCurrentQuestionIndex(JSON.parse(data.currentQuestionIndex))
       }
+      console.log(data.competition.wrongAnswers)
+      if (data.competition.wrongAnswers) {
+        setWrongAnswers(JSON.parse(data.competition.wrongAnswers))
+      }
+    }
+  }
+
+  const handleUpdateWrongAnswers = (index, count) => async () => {
+    const updatedWrongAnswers = wrongAnswers.map((w, i) => {
+      if (i === index) {
+        return { ...w, count }
+      }
+      return w
+    })
+    setWrongAnswers(updatedWrongAnswers)
+    try {
+      const res = await updateWrongAnswers({
+        wrongAnswers: updatedWrongAnswers
+      })
+      console.log(await res.json())
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -49,6 +74,10 @@ function CurrentCompetition({ match, history }) {
         >
           <Button onClick={handleEndCompetition}>Yarismayi bitir</Button>
         </div>
+        <WrongAnswers
+          handleUpdateWrongAnswers={handleUpdateWrongAnswers}
+          wrongAnswers={wrongAnswers}
+        />
         {episode && (
           <Questions
             currentQuestionIndex={currentQuestionIndex}

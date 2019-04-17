@@ -1,15 +1,19 @@
 import React from 'react'
+import { isNil } from 'ramda'
 
 import { useGet } from 'network/useNetwork'
 import SocketContext from 'network/Socket'
 import Container from 'components/Container'
 import Answers from './Answers'
+import WrongAnswersMain from './WrongAnswersMain'
+import Total from './Total'
 
 function CurrentQuestion({ competitionId }) {
   const { socket } = React.useContext(SocketContext)
   const [episode, setEpisode] = React.useState(null)
   const [questions, setQuestions] = React.useState([])
   const [competition, setCompetition] = React.useState(null)
+  const [wrongAnswers, setWrongAnswers] = React.useState([])
   const [correctAnswers, setCorrectAnswers] = React.useState([])
   const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(null)
 
@@ -28,6 +32,10 @@ function CurrentQuestion({ competitionId }) {
       if (data.currentQuestionIndex !== null) {
         setCurrentQuestionIndex(data.currentQuestionIndex || 0)
       }
+
+      if (data.competition.wrongAnswers) {
+        setWrongAnswers(JSON.parse(data.competition.wrongAnswers))
+      }
       if (episode) {
         const { questions } = episode
         setQuestions(JSON.parse(questions))
@@ -44,8 +52,18 @@ function CurrentQuestion({ competitionId }) {
   })
 
   if (questions[currentQuestionIndex]) {
+    const total = questions[currentQuestionIndex].answers
+      .map((answer, index) => {
+        return correctAnswers &&
+          !isNil(correctAnswers[currentQuestionIndex][index])
+          ? Number(answer.points)
+          : 0
+      })
+      .reduce((acc, next) => acc + next)
+
     return (
       <Container>
+        <Total total={total} />
         <div className="question-text">
           <h1>{questions[currentQuestionIndex].text}</h1>
         </div>
@@ -53,6 +71,7 @@ function CurrentQuestion({ competitionId }) {
           answers={questions[currentQuestionIndex].answers}
           correctAnswers={correctAnswers[currentQuestionIndex]}
         />
+        <WrongAnswersMain wrongAnswers={wrongAnswers} />
       </Container>
     )
   }

@@ -7,6 +7,10 @@ const schema = new Schema({
     type: String,
     default: '[]'
   },
+  wrongAnswers: {
+    type: String,
+    default: '[]'
+  },
   isActive: {
     type: Boolean,
     default: true

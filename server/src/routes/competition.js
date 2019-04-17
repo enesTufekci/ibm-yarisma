@@ -5,6 +5,25 @@ import Episode from '../modals/Episode'
 function competitionRoutes({ cache, socket }) {
   const router = Router()
 
+  router.post('/wrong-answers', async (req, res) => {
+    const { wrongAnswers } = req.body
+    const _id = cache.get('competitionId')
+    console.log(_id, wrongAnswers)
+    try {
+      const competition = await Competition.findByIdAndUpdate(_id, {
+        wrongAnswers: JSON.stringify(wrongAnswers)
+      })
+      console.log(competition)
+      if (competition) {
+        socket.emit('wrong-answers-update', wrongAnswers)
+        return res.send({ ok: true, competition })
+      }
+      return res.send({ ok: false })
+    } catch (error) {
+      return res.send({ ok: false, error })
+    }
+  })
+
   router.get('/', async (_, res) => {
     const competitionId = cache.get('competitionId')
     if (competitionId) {
@@ -49,7 +68,13 @@ function competitionRoutes({ cache, socket }) {
     try {
       const competition = await Competition.create({
         teams: JSON.stringify(teams),
-        episodeId
+        episodeId,
+        wrongAnswers: JSON.stringify(
+          teams.map(t => ({
+            team: t.title,
+            count: 0
+          }))
+        )
       })
       if (competition) {
         cache.set('competitionId', competition._id)

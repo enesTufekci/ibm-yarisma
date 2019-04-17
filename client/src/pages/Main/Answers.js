@@ -9,7 +9,6 @@ function Answers({ answers, correctAnswers }) {
     ...answer,
     show: correctAnswers && !isNil(correctAnswers[index])
   }))
-  console.log(answers)
   return (
     <div className="answers-container">
       {answersToDisplay.map((answer, index) => (

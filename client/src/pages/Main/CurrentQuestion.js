@@ -76,7 +76,16 @@ function CurrentQuestion({ competitionId }) {
       <Container>
         <Total total={total} />
         <div className="question-text">
-          <h1>{questions[currentQuestionIndex].text}</h1>
+          <h1
+            style={{
+              fontSize: `${Math.max(
+                100 / questions[currentQuestionIndex].text.length,
+                2
+              )}rem`
+            }}
+          >
+            {questions[currentQuestionIndex].text}
+          </h1>
         </div>
         <Answers
           answers={questions[currentQuestionIndex].answers}

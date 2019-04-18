@@ -8,4 +8,6 @@
 
 .layout.main {
   background-image: url('./bg.jpg');
+  overflow: hidden;
+  max-height: 100vh;
 }

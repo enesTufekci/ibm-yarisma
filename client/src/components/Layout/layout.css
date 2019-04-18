@@ -8,6 +8,9 @@
 
 .layout.main {
   background-image: url('./bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   overflow: hidden;
   max-height: 100vh;
 }

@@ -15,6 +15,7 @@ body {
   padding: 0;
   color: #fff;
   font-weight: 500;
+  overflow: hidden;
   font-family: 'Titillium Web', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
